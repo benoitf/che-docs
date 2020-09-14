@@ -7,6 +7,7 @@
 
 :context: introduction-to-eclipse-che
 
+* A test
 * A centralized developer environment running on Kubernetes.
 * A multicontainer workspace for each developer with the ability to replicate with a single click using {prod} factories.
 * Pre-built stacks with the ability to create custom stacks for any language or runtime.
