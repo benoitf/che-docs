@@ -35,6 +35,6 @@ jobs:
            const prSha = context.payload.pull_request.head.sha;
            const createStatus = await github.repos.createCommitStatus({ owner, repo, sha, state: "success", target_url: netlifyUrl, description: "Live deploy", context: "netlify"})
            console.log('create status result', createStatus);
-           const createPRStatus = await github.repos.createCommitStatus({ owner, repo, prSha, state: "success", target_url: netlifyUrl, description: "Live deploy", context: "netlify"})
+           const createPRStatus = await github.repos.createCommitStatus({ owner, repo, sha: prSha, state: "success", target_url: netlifyUrl, description: "Browse PR documentation live", context: "netlify"})
            console.log('create status result', createPRStatus);
            github.issues.createComment({ issue_number, owner, repo, body });
