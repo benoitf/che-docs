@@ -27,6 +27,7 @@ jobs:
          github-token: ${{ secrets.GITHUB_TOKEN }}
          script: |
            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-           const netlifyUrl = ${{ steps.netlify-publish.outputs.NETLIFY_URL }};
+           const netlifyUrl = '${{ steps.netlify-publish.outputs.NETLIFY_URL }}';
            console.log(`Netlify app deployed at ${netlifyUrl}`);
-           github.issues.createComment({ issue_number, owner, repo, body: `👋  ${netlifyUrl}` });
+           const body = `👋  ${netlifyUrl}`;
+           github.issues.createComment({ issue_number, owner, repo, body });
