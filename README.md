@@ -7,3 +7,4 @@ To ask a question, [file an issue](https://github.com/eclipse/che/issues/new?lab
 
 To learn more about the Eclipse Che project, see the [Eclipse Che repository on GitHub](https://github.com/eclipse/che).
 
+test
