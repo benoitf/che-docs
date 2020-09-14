@@ -2,7 +2,7 @@ name: netlify-pr-preview
 on: [push, pull_request]
 jobs:
   netlify:
-    name: setup che
+    name: publish to netlify
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -21,13 +21,12 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       - name: 'Comment PR'
-        uses: actions/github-script@0.3.0
+        uses: actions/github-script@v3.0.0
         if: github.event_name == 'pull_request'
         with:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         github-token: ${{ secrets.GITHUB_TOKEN }}
          script: |
            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
            const netlifyUrl = ${{ steps.netlify-publish.outputs.NETLIFY_URL }};
            console.log(`Netlify app deployed at ${netlifyUrl}`);
-           const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
            github.issues.createComment({ issue_number, owner, repo, body: `👋  ${netlifyUrl}` });
