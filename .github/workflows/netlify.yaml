@@ -1,5 +1,5 @@
 name: netlify-pr-preview
-on: [push, pull_request]
+on: pull_request
 jobs:
   netlify:
     name: publish to netlify
@@ -29,5 +29,6 @@ jobs:
            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
            const netlifyUrl = '${{ steps.netlify-publish.outputs.NETLIFY_URL }}';
            console.log(`Netlify app deployed at ${netlifyUrl}`);
-           const body = `👋  ${netlifyUrl}`;
+           const body = `Check documentation live at ${netlifyUrl}`;
            github.issues.createComment({ issue_number, owner, repo, body });
+           github.repos.createCommitStatus({ owner, repo, sha, state: "success", target_url: netlifyUrl, description: "see PR result live", context: "netlify"})
