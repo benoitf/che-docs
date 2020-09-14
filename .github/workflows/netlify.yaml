@@ -24,17 +24,8 @@ jobs:
         uses: actions/github-script@v3.0.0
         if: github.event_name == 'pull_request'
         with:
-         github-token: ${{ secrets.GITHUB_TOKEN }}
-         debug: "true"
          script: |
-           const { issue: { number: issue_number }, repo: { owner, repo }, sha  } = context;
+           const { issue: { number: issue_number }, repo: { owner, repo } } = context;
            const netlifyUrl = '${{ steps.netlify-publish.outputs.NETLIFY_URL }}';
-           console.log(`Netlify app deployed at ${netlifyUrl}`);
-           console.log(`sha is ${sha}, repo is ${repo} and owner ${owner}`);
-           const body = `Check documentation live at ${netlifyUrl}`;
            const prSha = context.payload.pull_request.head.sha;
-           const createStatus = await github.repos.createCommitStatus({ owner, repo, sha, state: "success", target_url: netlifyUrl, description: "Live deploy", context: "netlify"})
-           console.log('create status result', createStatus);
-           const createPRStatus = await github.repos.createCommitStatus({ owner, repo, sha: prSha, state: "success", target_url: netlifyUrl, description: "Browse PR documentation live", context: "netlify"})
-           console.log('create status result', createPRStatus);
-           github.issues.createComment({ issue_number, owner, repo, body });
+           await github.repos.createCommitStatus({ owner, repo, sha: prSha, state: "success", target_url: netlifyUrl, description: "Browse PR documentation live", context: "netlify"})
